@@ -3,6 +3,7 @@ package com.example.exam;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,9 +41,11 @@ public class activity_second extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
+        String k=intent.getStringExtra("strs")
 
         listData = (ArrayList<String>) intent.getSerializableExtra("StrList");
         boolData = (ArrayList<Boolean>) intent.getSerializableExtra("BoolList");
+
 
         for (int i = 0; i < listData.size(); i++) {
             if (boolData.get(i) == true) {

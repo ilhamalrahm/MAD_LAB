@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.exam.R;
 
@@ -18,10 +19,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Private members of the class:
-    ArrayList<String> listData = new ArrayList<>();
+    ArrayList<String> listData = new ArrayList<String>();
 
     int counter = 1;    // range of [1-3]
     boolean canSetVisible = false;
+
 
 
     // Reference variables:
@@ -66,10 +68,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add_button:       // Add a string to the list, increment counter
-                if (counter < 3) {
+                if (counter < 4) {
                     String text = inputField.getText().toString();
                     listData.add(text);
                     counter += 1;
+                    inputField.setText("");
+                    Toast.makeText(MainActivity.this,"Added to list", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     HideInputFields();
@@ -132,9 +136,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void SetCheckboxContents() {
-        checkBox1.setText("abc");
-        checkBox2.setText("def");
-        checkBox3.setText("hij");
+
+        for(String i:listData)
+        {
+            checkBox1.setText(i);
+        }
+//        checkBox1.setText("abc");
+//        checkBox2.setText("def");
+//        checkBox3.setText("hij");
     }
 
 
