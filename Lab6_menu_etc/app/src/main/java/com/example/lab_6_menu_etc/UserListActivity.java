@@ -1,5 +1,6 @@
 package com.example.lab_6_menu_etc;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -71,7 +72,25 @@ public class UserListActivity extends AppCompatActivity {
 
     private void deleteUser(int position) {
         String p=Integer.toString(position);
-        database.delete("users2","id = ?",new String[]{p});
-        MainActivity.ID=MainActivity.ID-1;
+//        database.delete("users2","id = ?",new String[]{p});
+
+
+        int count=0;
+        Cursor cursor = database.rawQuery("SELECT * FROM users2", null);
+
+
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndex("id"));
+            String name = cursor.getString(cursor.getColumnIndex("name"));
+            String email = cursor.getString(cursor.getColumnIndex("email"));
+            if(count==position)
+            {
+                database.delete("users2","name = ?",new String[]{name});
+                MainActivity.ID=MainActivity.ID-1;
+                break;
+            }
+            count++;
+        }
+        cursor.close();
     }
 }
