@@ -1,5 +1,7 @@
 package com.example.lab_6_menu_etc;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,6 +23,12 @@ public class UserListActivity extends AppCompatActivity {
 
     private ListView listView;
     private SQLiteDatabase database;
+
+    private TextView tv;
+
+    private SharedPreferences sharedPreferences;
+
+
 
 
 
@@ -32,6 +41,13 @@ public class UserListActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
         database = openOrCreateDatabase("users.db", MODE_PRIVATE, null);
+        sharedPreferences=getSharedPreferences("prefs", Context.MODE_PRIVATE);
+        tv=findViewById(R.id.textView);
+
+        String s=sharedPreferences.getString("toggle state","");
+
+        tv.setText(s);
+
 
         // get the list of users from the previous activity
         User[] users = (User[]) getIntent().getSerializableExtra("users");

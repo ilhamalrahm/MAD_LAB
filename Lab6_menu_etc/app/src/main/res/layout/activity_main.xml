@@ -30,4 +30,10 @@
         android:layout_height="wrap_content"
         android:text="Show Users" />
 
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="271dp"
+        android:layout_height="wrap_content"
+        android:text="ToggleButton" />
+
 </LinearLayout>

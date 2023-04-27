@@ -1,14 +1,19 @@
 package com.example.lab_6_menu_etc;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,8 +24,12 @@ import com.example.lab_6_menu_etc.DBHelper;
 public class MainActivity extends AppCompatActivity {
     public static int ID=0;
 
+
+
     private EditText nameEditText, emailEditText;
     private Button submitButton, showButton;
+    private ToggleButton tb;
+    private SharedPreferences sharedPreferences;
 
     private SQLiteDatabase database;
 
@@ -39,12 +48,44 @@ public class MainActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
         submitButton = findViewById(R.id.submitButton);
         showButton = findViewById(R.id.showButton);
+        tb=findViewById(R.id.toggleButton);
+        sharedPreferences=getSharedPreferences("prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+
+        String togglestate=sharedPreferences.getString("toggle state","");
+        System.out.println(togglestate);
+
+        if(togglestate.equals("Toggle button is on"))
+        {
+            tb.setChecked(true);
+        }
+        else {
+            tb.setChecked(false);
+        }
+
+
 
 //        DBHelper.InitDB();
 
         // create the database
         database = openOrCreateDatabase("users.db", MODE_PRIVATE, null);
         database.execSQL("CREATE TABLE IF NOT EXISTS users2 (id Integer,name VARCHAR, email VARCHAR)");
+
+        tb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    editor.putString("toggle state","Toggle button is on");
+                    editor.apply();
+                } else {
+                    // Toggle is OFF
+                    editor.putString("toggle state","Toggle button is off");
+                    editor.apply();
+                }
+            }
+
+
+        });
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
 

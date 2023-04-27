@@ -8,8 +8,14 @@
 
     <ListView
         android:id="@+id/listView"
+        android:layout_width="338dp"
+        android:layout_height="594dp"
+        android:longClickable="true" />
+
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:longClickable="true"/>
+        android:text="TextView" />
 
 </LinearLayout>
