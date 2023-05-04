@@ -3,6 +3,8 @@ package com.example.mix;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -16,20 +18,29 @@ import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
 
 public class Homepage extends AppCompatActivity {
 
     SQLiteDatabase db=SQLiteDatabase.openOrCreateDatabase("/data/data/com.example.mix/database/mix.db",null,null);
 
+    SharedPreferences prefs;
+    SharedPreferences.Editor editprefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
+        prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE);
+        editprefs= prefs.edit();
 
         Cursor cursor=db.rawQuery("Select name from User",null);
         cursor.moveToLast();
         String name=cursor.getString(0);
         cursor.close();
+        editprefs.putString("name",name);
+        editprefs.apply();
         TextView n=(TextView)findViewById(R.id.Welcome);
         String welcomeMes="Welcome "+ name;
 
@@ -96,5 +107,8 @@ public class Homepage extends AppCompatActivity {
                 return super.onContextItemSelected(item);
         }
     }
+
+
+
 
 }
